@@ -1,0 +1,80 @@
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, input, textarea, button {
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button {
+  cursor: pointer;
+  color: inherit;
+  background-color: inherit;
+  font: inherit;
+  padding: 0;
+  margin: 0;
+  border: none; }
+
+::-webkit-input-placeholder {
+  line-height: normal; }
+
+/* 
+ * put your variables here
+ */
+.group:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+/* 
+ *	Place the scss code for your mobile layout here
+ */
+/* 
+ *	Place the scss code for your tablet layout here
+ */
+@media only screen and (min-width: 40em) { }
+
+/* 
+ *	Place the scss code for your desktop layout here
+ */
+@media only screen and (min-width: 60em) { }
+
+/* 
+	Put every typographic related stuff (font, font sizes, line-height etc.) here.
+*/
+/* 
+ *	Place the scss code for your modules here
+ */
+/* 
+ *	Place the scss code for dom states here
+ */
