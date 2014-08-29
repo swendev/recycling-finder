@@ -17,11 +17,13 @@
  
 <body>
 
-	<div ng-controller="TestCtrl as test">
-		{{test.message}}
+	<div id="map-canvas" ng-controller="MapController as map">
+
 	</div>
 
 	<!-- ######################## javascript ######################## -->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDmfMkdKoHPUCyO-xMYOSOy5tGq17yTnG4&sensor=FALSE">
+	</script>
 	<!-- build:js https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.js"></script>
 	<!-- endbuild -->
@@ -31,7 +33,7 @@
 
 	<!-- build:js js/app.min.js -->
 	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript" src="js/controllers/test-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/map-ctrl.js"></script>
 	<!-- endbuild -->
 
 </body>
