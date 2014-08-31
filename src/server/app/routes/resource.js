@@ -25,7 +25,8 @@ router.route("/locations")
 
 		var location                = new GeoLocation(); 		// create a new instance of the GeoLocation model
 		location.name               = req.body.name;            // set the locations name (comes from the request)
-		location.loc.type           = req.body.type;            // set the type of the geo location (sphere, point, polygon)
+		location.type               = req.body.type;
+		location.loc.type           = req.body.geometry;            // set the type of the geo location (sphere, point, polygon)
 		location.loc.coordinates    = [req.body.lng, req.body.lat];
 
 		// save the location and check for errors
@@ -98,26 +99,45 @@ router.route("/locations/:location_id")
 
 //
 // ----------------------------------------------------
-router.route("/locations/near/:lng/:lat/:max")
+	router.route("/locations/near/:lng/:lat/:type/:max")
 
-	// get locations near the get params
-	.get(function(req, res) {
-		// setup geoJson for query
-		var geoJson                 = {};
-		geoJson.type            = "Point";
-		geoJson.coordinates     = [parseFloat(req.params.lng), parseFloat(req.params.lat)];
+		// get locations near the get params
+		.get(function(req, res) {
+			// setup geoJson for query
+			var geoJson             = {};
+			geoJson.type            = "Point";
+			geoJson.coordinates     = [parseFloat(req.params.lng), parseFloat(req.params.lat)];
 
-		// setup options for query
-		var options = {};
-		options.spherical           = true;
-		options.maxDistance         = parseInt(req.params.max);
+			// setup options for query
+			var options             = {};
+			options.spherical       = true;
+			options.maxDistance     = parseInt(req.params.max)/6371000;
 
-		// query db with mongoose geoNear wrapper
-		GeoLocation.geoNear(geoJson, options, function (err, results, stats) {
-			if (err)
-				res.send(err);
-			res.json(results);
+			// query db with mongoose geoNear wrapper
+			GeoLocation.geoNear(geoJson, options, function (err, results, stats) {
+				// error handling
+				if (err) { res.send(err); }
+
+				// success handling
+				var locations = [];
+				//flatten and filter results
+
+				if(results.length !== undefined) {
+					for(var i = 0; i < results.length; i++) {
+						if(req.params.type == "all" || results[i].obj.type == req.params.type) {
+							locations[i] = {
+								name: results[i].obj.name,
+								type: results[i].obj.type,
+								dis: Math.round(results[i].dis*6371000),
+								loc: results[i].obj.loc
+							};
+						}
+					}
+				}
+
+				res.json(locations);
+			});
 		});
-	});
+
 
 module.exports = router;

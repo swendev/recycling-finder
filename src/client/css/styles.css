@@ -66,12 +66,70 @@ body {
   width: 100%;
   height: 100%; }
 
+header {
+  position: relative;
+  z-index: 999;
+  background-color: #3E50B4;
+  color: #FFFFFF;
+  height: 4em;
+  box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3); }
+
 #map-canvas {
   position: absolute;
-  top: 10em;
+  top: 4em;
   bottom: 0;
   width: 100%;
   min-height: 20em; }
+
+#map-controls {
+  font-size: 0.9em;
+  position: relative;
+  margin: 2em auto 0 auto;
+  z-index: 999;
+  text-align: center;
+  height: 2.4em; }
+  #map-controls form {
+    position: relative;
+    height: 100%;
+    display: inline-block;
+    text-align: left;
+    background-color: #FFFFFF;
+    color: #3E50B4;
+    box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3); }
+  #map-controls input {
+    color: inherit;
+    float: left;
+    display: block;
+    height: 100%;
+    width: 34em;
+    padding-left: 0.5em;
+    border: 1px solid #ffffff;
+    -webkit-transition: border-color 0.2s;
+            transition: border-color 0.2s; }
+    #map-controls input:hover, #map-controls input:focus {
+      border-color: #3E50B4; }
+  #map-controls .search-options {
+    height: 100%;
+    position: absolute;
+    right: 2.4em; }
+  #map-controls select {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: none;
+    height: 100%;
+    float: left;
+    display: block;
+    background-color: transparent; }
+  #map-controls button {
+    float: left;
+    display: block;
+    height: 100%;
+    padding: 0 0.8em;
+    background-color: #3E50B4;
+    color: #FFFFFF; }
 
 /* 
  *	Place the scss code for your tablet layout here
@@ -86,6 +144,9 @@ body {
 /* 
 	Put every typographic related stuff (font, font sizes, line-height etc.) here.
 */
+body {
+  font-family: 'Roboto', sans-serif; }
+
 /* 
  *	Place the scss code for your modules here
  */

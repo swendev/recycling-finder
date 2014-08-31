@@ -5,6 +5,7 @@ var Schema       = mongoose.Schema;
 // schema for mongoose to interact with mongodb
 var GeoLocationSchema   = new Schema({
 	name: String,
+	type: String,
 	loc: {
 		type: {
 			type: String,
