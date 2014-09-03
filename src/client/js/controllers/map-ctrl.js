@@ -1,10 +1,22 @@
 app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", function($scope, mapFactory, geoApiFactory) {
-	var searchBox;
+	var autocomplete;
 	var place;
+	var animationEndHandlerNames = ["animationend", "webkitAnimationEnd", "oAnimationEnd", "MSAnimationEnd"];
+
 	$scope.searchDistances = mapFactory.getSearchDistances();
 	$scope.searchTypes = mapFactory.getSearchTypes();
 	$scope.searchDistance = $scope.searchDistances[0];
 	$scope.searchType = $scope.searchTypes[0];
+	$scope.showLocations = false;
+	$scope.locations = [];
+
+	// add listener for result hide/show
+	var resultBox = document.getElementById("results");
+	angular.forEach(animationEndHandlerNames, function(animationName, key) {
+		resultBox.addEventListener(animationName, function() {
+			console.log("event ended");
+		}, false);
+	});
 
 	// get all necessary params to setup a map
 	var mapOptions = {
@@ -14,20 +26,21 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	var searchOptions = {
-		componentRestrictions: {country: "de"}
+		componentRestrictions: {country: "de"},
+		type: ["address"]
 	};
 	var mapCanvas = document.getElementById("map-canvas");
 	var searchInput = document.getElementById("map-search");
 
 	// create Map
-	searchBox = mapFactory.setupMap(mapCanvas, searchInput, mapOptions, searchOptions);
+	autocomplete = mapFactory.setupMap(mapCanvas, searchInput, mapOptions, searchOptions);
 
 	// add event listeners
 	var submitButton = document.getElementById("submit");
-	$scope.submit = function() {
+	$scope.search = function() {
 		event();
 	};
-	google.maps.event.addListener(searchBox, 'places_changed', function() {
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
 		event();
 	});
 
@@ -40,13 +53,19 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 			// get promise for matching places in radius
 			console.log($scope.searchDistance);
 			geoApiFactory.getMarkers(place.geometry.location.k, place.geometry.location.B, $scope.searchType.value, $scope.searchDistance.value).then(function (response) {
-				console.log(response);
-				angular.forEach(response.data, function(location, key) {
-					mapFactory.addMarkerFromLocation(location);
-				});
+				$scope.locations = response.data;
+				var locationCount = mapFactory.addMarkersFromLocations(response.data);
+				if(locationCount > 0) {
+					$scope.showLocations = true;
+				}
 			}, function () {
 				// error
 			});
 		}
 	}
+
+	// create Route
+	$scope.createRoute = function(location) {
+		mapFactory.createRoute(location);
+	};
 }]);

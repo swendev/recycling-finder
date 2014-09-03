@@ -1,0 +1,34 @@
+#results {
+	background-color: $color_light;
+	box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
+	font-size: 0.9em;
+	display: none;
+
+	h2 {
+		font-size: 1.2em;
+		padding: 0.8333333333em;
+	}
+
+	li {
+		display: block;
+		padding: 0.5em 1em;
+	}
+
+	img {
+		display: block;
+		float: left;
+		width: 1.6em;
+		height: 1.6em;
+	}
+
+	ul {
+		margin-bottom: 1.5em;
+	}
+
+	span {
+		display: block;
+		float: left;
+		line-height: 1.6em;
+		margin-left: 0.5em;
+	}
+}

@@ -22,21 +22,56 @@ router.route("/locations")
 
 	// create a location
 	.post(function(req, res) {
+		// setup options for query
+		var options             = {};
+		options.spherical       = true;
+		options.maxDistance     = 100/6371000;
+		// check if a location already exists
 
-		var location                = new GeoLocation(); 		// create a new instance of the GeoLocation model
-		location.name               = req.body.name;            // set the locations name (comes from the request)
-		location.type               = req.body.type;
-		location.loc.type           = req.body.geometry;            // set the type of the geo location (sphere, point, polygon)
-		location.loc.coordinates    = [req.body.lng, req.body.lat];
+		var result = {};
 
-		// save the location and check for errors
-		location.save(function(err) {
-			if (err)
-				res.send(err);
+		var geoJson = {
+			"type": "Point",
+			"coordinates" : [parseFloat(req.body.lng), parseFloat(req.body.lat)]
+		};
 
-			res.json({ message: "location added" });
+		// query db with mongoose geoNear wrapper
+		GeoLocation.geoNear(geoJson, options, function (err, results, stats) {
+			// error handling
+			if (err) { res.send(err); }
+
+			// success handling
+			else {
+				var location = new GeoLocation(); 		// create a new instance of the GeoLocation model
+
+				if(results.length !== undefined && results.length > 0) {
+					location = results[0].obj;
+					if (location.type.indexOf(req.body.type) > -1) {
+						//In the array!
+						res.json({ message: "location exists already" });
+					} else {
+						location.type.push(req.body.type);
+						location.save(function(err) {
+							if (err)
+								res.send(err);
+
+							res.json({ message: "location altered" });
+						});
+					}
+				} else {
+					location.name               = req.body.name;            // set the locations name (comes from the request)
+					location.type               = [req.body.type];
+					location.loc.type           = req.body.geometry;            // set the type of the geo location (sphere, point, polygon)
+					location.loc.coordinates    = [req.body.lng, req.body.lat];
+					location.save(function(err) {
+						if (err)
+							res.send(err);
+
+						res.json({ message: "location added" });
+					});
+				}
+			}
 		});
-
 	})
 	// get all locations
 	.get(function(req, res) {
@@ -104,9 +139,10 @@ router.route("/locations/:location_id")
 		// get locations near the get params
 		.get(function(req, res) {
 			// setup geoJson for query
-			var geoJson             = {};
-			geoJson.type            = "Point";
-			geoJson.coordinates     = [parseFloat(req.params.lng), parseFloat(req.params.lat)];
+			var geoJson = {
+				"type": "Point",
+				"coordinates" : [parseFloat(req.params.lng), parseFloat(req.params.lat)]
+			};
 
 			// setup options for query
 			var options             = {};
@@ -138,6 +174,5 @@ router.route("/locations/:location_id")
 				res.json(locations);
 			});
 		});
-
 
 module.exports = router;

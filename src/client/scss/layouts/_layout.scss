@@ -15,76 +15,31 @@ header {
 	z-index: 999;
 	background-color: $color_dark;
 	color: $color_light;
-	height: 4em;
+	height: 3em;
 	box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
 }
 
 #map-canvas {
 	position: absolute;
-	top: 4em;
+	top: 3em;
 	bottom: 0;
 	width: 100%;
 	min-height: 20em;
 }
 
-#map-controls {
-	font-size: 0.9em;
-	position: relative;
-	margin: 2em auto 0 auto;
+#search {
+	position: absolute;
+	width: 100%;
+	top: 5em;
 	z-index: 999;
-	text-align: center;
-	height: 2.4em;
+}
 
-	form {
-		position: relative;
-		height: 100%;
-		display: inline-block;
-		text-align: left;
-		background-color: $color_light;
-		color: $color_dark;
-		box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
-	}
+#results {
+	position: absolute;
+	top: 5em;
+	right: 2em;
+	width: 16em;
+	max-height: calc(100% - 7em);
+	z-index: 999;
 
-	input {
-		color: inherit;
-		float: left;
-		display: block;
-		height: 100%;
-		width: 34em;
-		padding-left: 0.5em;
-		border: 1px solid #ffffff;
-		transition: border-color $anim_spd;
-
-		&:hover, &:focus {
-			border-color: $color_dark;
-		}
-	}
-
-	.search-options {
-		height: 100%;
-		position: absolute;
-		right: 2.4em;
-	}
-
-	select {
-		color: inherit;
-		font: inherit;
-		margin: 0;
-		padding: 0;
-		outline: 0;
-		border: none;
-		height: 100%;
-		float: left;
-		display: block;
-		background-color: transparent;
-	}
-
-	button {
-		float: left;
-		display: block;
-		height: 100%;
-		padding: 0 0.8em;
-		background-color: $color_dark;
-		color: $color_light;
-	}
 }

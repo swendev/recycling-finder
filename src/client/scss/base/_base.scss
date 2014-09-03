@@ -16,7 +16,7 @@ $color_dark: #3E50B4;
 $color_error: red;
 $color_success: green;
 
-.group:after {
+.group:after, li, ul {
 	content: "";
 	display: table;
 	clear: both;

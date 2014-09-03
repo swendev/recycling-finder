@@ -51,7 +51,7 @@ button {
 /* 
  * put your variables here
  */
-.group:after {
+.group:after, li, ul {
   content: "";
   display: table;
   clear: both; }
@@ -71,65 +71,29 @@ header {
   z-index: 999;
   background-color: #3E50B4;
   color: #FFFFFF;
-  height: 4em;
+  height: 3em;
   box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3); }
 
 #map-canvas {
   position: absolute;
-  top: 4em;
+  top: 3em;
   bottom: 0;
   width: 100%;
   min-height: 20em; }
 
-#map-controls {
-  font-size: 0.9em;
-  position: relative;
-  margin: 2em auto 0 auto;
-  z-index: 999;
-  text-align: center;
-  height: 2.4em; }
-  #map-controls form {
-    position: relative;
-    height: 100%;
-    display: inline-block;
-    text-align: left;
-    background-color: #FFFFFF;
-    color: #3E50B4;
-    box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3); }
-  #map-controls input {
-    color: inherit;
-    float: left;
-    display: block;
-    height: 100%;
-    width: 34em;
-    padding-left: 0.5em;
-    border: 1px solid #ffffff;
-    -webkit-transition: border-color 0.2s;
-            transition: border-color 0.2s; }
-    #map-controls input:hover, #map-controls input:focus {
-      border-color: #3E50B4; }
-  #map-controls .search-options {
-    height: 100%;
-    position: absolute;
-    right: 2.4em; }
-  #map-controls select {
-    color: inherit;
-    font: inherit;
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    border: none;
-    height: 100%;
-    float: left;
-    display: block;
-    background-color: transparent; }
-  #map-controls button {
-    float: left;
-    display: block;
-    height: 100%;
-    padding: 0 0.8em;
-    background-color: #3E50B4;
-    color: #FFFFFF; }
+#search {
+  position: absolute;
+  width: 100%;
+  top: 5em;
+  z-index: 999; }
+
+#results {
+  position: absolute;
+  top: 5em;
+  right: 2em;
+  width: 16em;
+  max-height: calc(100% - 7em);
+  z-index: 999; }
 
 /* 
  *	Place the scss code for your tablet layout here
@@ -150,6 +114,153 @@ body {
 /* 
  *	Place the scss code for your modules here
  */
+header {
+  padding: 0.5em 2em; }
+  header h1 {
+    float: left;
+    font-size: 1.6em; }
+    header h1 i {
+      margin-right: 0.5em; }
+
+.result-toggle {
+  height: 2em;
+  float: right;
+  padding: 0.4em;
+  border: 1px solid #344496; }
+  .result-toggle i {
+    margin-right: 0.5em; }
+
+#search {
+  text-align: center;
+  font-size: 0.9em; }
+  #search form {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    background-color: #FFFFFF;
+    color: #3E50B4;
+    box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
+    height: 3em; }
+  #search input {
+    color: inherit;
+    float: left;
+    display: block;
+    height: 100%;
+    width: 34em;
+    padding-left: 1em;
+    border: 1px solid #ffffff;
+    -webkit-transition: border-color 0.2s;
+            transition: border-color 0.2s; }
+    #search input:hover, #search input:focus {
+      border-color: #3E50B4; }
+  #search .search-options {
+    height: 100%;
+    position: absolute;
+    right: 3em; }
+  #search select {
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    outline: 0;
+    border: none;
+    height: calc(100% - 2px);
+    float: left;
+    display: block;
+    background-color: #FFFFFF;
+    margin: 1px; }
+    #search select:first-of-type {
+      padding-left: 1em; }
+  #search button {
+    float: left;
+    display: block;
+    height: 3em;
+    width: 3em;
+    padding: 0 1em;
+    background-color: #3E50B4;
+    color: #FFFFFF; }
+
+#results {
+  background-color: #FFFFFF;
+  box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
+  font-size: 0.9em;
+  display: none; }
+  #results h2 {
+    font-size: 1.2em;
+    padding: 0.8333333333em; }
+  #results li {
+    display: block;
+    padding: 0.5em 1em; }
+  #results img {
+    display: block;
+    float: left;
+    width: 1.6em;
+    height: 1.6em; }
+  #results ul {
+    margin-bottom: 1.5em; }
+  #results span {
+    display: block;
+    float: left;
+    line-height: 1.6em;
+    margin-left: 0.5em; }
+
+.visible {
+  display: block !important;
+  -webkit-animation: zoomIn ease 0.2s;
+          animation: zoomIn ease 0.2s; }
+
+.hidden {
+  display: block !important;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-animation: zoomOut ease 0.2s;
+          animation: zoomOut ease 0.2s; }
+
+@-webkit-keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    -ms-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3); }
+
+  50% {
+    opacity: 1; } }
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    -ms-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3); }
+
+  50% {
+    opacity: 1; } }
+
+@-webkit-keyframes zoomOut {
+  0% {
+    opacity: 1; }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    -ms-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3); }
+
+  100% {
+    opacity: 0; } }
+
+@keyframes zoomOut {
+  0% {
+    opacity: 1; }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    -ms-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3); }
+
+  100% {
+    opacity: 0; } }
+
 /* 
  *	Place the scss code for dom states here
  */

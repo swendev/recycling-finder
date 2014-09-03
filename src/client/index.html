@@ -19,31 +19,50 @@
 </head>
  
 <body ng-controller="MapController">
-	<header><h1>Finder</h1></header>
+	<header>
+		<h1><i class="fa fa-rocket"></i>Finder</h1>
+		<button class="result-toggle" ng-click="showLocations = !showLocations"><i class="fa fa-list"></i>Ergebnisse</button>
+	</header>
 
-	<div id="map-controls">
+	<div id="search">
 		<form>
-
 			<input id="map-search" type="text" placeholder="search" />
 			<div class="search-options">
 				<select
 						name="searchDistance"
 						id="searchDistance"
 						ng-model="searchDistance"
-						ng-options="searchDistance.text for searchDistance in searchDistances track by searchDistance.value">
+						ng-options="searchDistance.text for searchDistance in searchDistances track by searchDistance.value"
+						ng-change="search()">
 				</select>
 
 				<select
 						name="searchType"
 						id="searchType"
 						ng-model="searchType"
-						ng-options="searchType.text for searchType in searchTypes track by searchType.value">
+						ng-options="searchType.text for searchType in searchTypes track by searchType.value"
+						ng-change="search()">
 				</select>
 			</div>
-			<button id="submit" ng-click="submit()">
+			<button id="submit" ng-click="search()">
 				<i class="fa fa-search"></i>
 			</button>
 		</form>
+	</div>
+	<div id="results" ng-class="{true:'visible', false:'hidden'}[showLocations]">
+		<h2>Legende</h2>
+		<ul>
+			<li><img src="img/svg/paper.svg" alt=""/><span>Papier</span></li>
+			<li><img src="img/svg/paper.svg" alt=""/><span>Glas</span></li>
+			<li><img src="img/svg/paper.svg" alt=""/><span>Grüner Punkt</span></li>
+			<li><img src="img/svg/paper.svg" alt=""/><span>Kleidung</span></li>
+		</ul>
+		<h2>Ergebnisse</h2>
+		<ul>
+			<li ng-repeat="location in locations" ng-click="createRoute(location)">
+				{{ location.name }} - {{ location.dis }}m
+			</li>
+		</ul>
 	</div>
 	<div id="map-canvas"></div>
 
