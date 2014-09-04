@@ -54,6 +54,7 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 			console.log($scope.searchDistance);
 			geoApiFactory.getMarkers(place.geometry.location.k, place.geometry.location.B, $scope.searchType.value, $scope.searchDistance.value).then(function (response) {
 				$scope.locations = response.data;
+				console.log($scope.locations);
 				var locationCount = mapFactory.addMarkersFromLocations(response.data);
 				if(locationCount > 0) {
 					$scope.showLocations = true;

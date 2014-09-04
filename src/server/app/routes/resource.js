@@ -22,56 +22,66 @@ router.route("/locations")
 
 	// create a location
 	.post(function(req, res) {
-		// setup options for query
-		var options             = {};
-		options.spherical       = true;
-		options.maxDistance     = 100/6371000;
 		// check if a location already exists
-
-		var result = {};
-
 		var geoJson = {
 			"type": "Point",
 			"coordinates" : [parseFloat(req.body.lng), parseFloat(req.body.lat)]
 		};
 
-		// query db with mongoose geoNear wrapper
-		GeoLocation.geoNear(geoJson, options, function (err, results, stats) {
-			// error handling
-			if (err) { res.send(err); }
+		// setup options for query
+		var options = {
+			"near": geoJson,
+			"distanceField": "distance",
+			"maxDistance": 100,
+			"spherical": true
+		};
 
-			// success handling
-			else {
-				var location = new GeoLocation(); 		// create a new instance of the GeoLocation model
+		// query db with mongoose
+		GeoLocation.aggregate(
+			[
+				{ "$geoNear": options },
+				{ "$sort": { "distance": -1 } } // Sort nearest first
+			],
+			function(err, docs) {
+				if(err) {
+					res.send(err);
+				} else {
+					if(docs.length > 0) {
+						if (docs[0].type.indexOf(req.body.type) > -1) {
+							//In the array!
+							res.json({ message: "location exists already" });
+						} else {
+							// use our location model to find the location we want
+							GeoLocation.findById(docs[0]._id, function(err, location) {
+								if (err) { res.send(err); }
+								else {
+									location.type.push(req.body.type);
+									location.save(function(err) {
+										if (err) { res.send(err); }
+										else {
+											res.json({ message: "location altered" });
+										}
+									});
+								}
 
-				if(results.length !== undefined && results.length > 0) {
-					location = results[0].obj;
-					if (location.type.indexOf(req.body.type) > -1) {
-						//In the array!
-						res.json({ message: "location exists already" });
+							});
+						}
 					} else {
-						location.type.push(req.body.type);
+						var location = new GeoLocation();
+						location.name               = req.body.name;        // set the locations name (comes from the request)
+						location.type               = [req.body.type];
+						location.loc.type           = req.body.geometry;    // set the type of the geo location (sphere, point, polygon)
+						location.loc.coordinates    = [req.body.lng, req.body.lat];
 						location.save(function(err) {
 							if (err)
 								res.send(err);
 
-							res.json({ message: "location altered" });
+							res.json({ message: "location added" });
 						});
 					}
-				} else {
-					location.name               = req.body.name;            // set the locations name (comes from the request)
-					location.type               = [req.body.type];
-					location.loc.type           = req.body.geometry;            // set the type of the geo location (sphere, point, polygon)
-					location.loc.coordinates    = [req.body.lng, req.body.lat];
-					location.save(function(err) {
-						if (err)
-							res.send(err);
-
-						res.json({ message: "location added" });
-					});
 				}
 			}
-		});
+		);
 	})
 	// get all locations
 	.get(function(req, res) {
@@ -145,34 +155,31 @@ router.route("/locations/:location_id")
 			};
 
 			// setup options for query
-			var options             = {};
-			options.spherical       = true;
-			options.maxDistance     = parseInt(req.params.max)/6371000;
+			var options = {
+				"near": geoJson,
+				"distanceField": "distance",
+				"maxDistance": parseInt(req.params.max),
+				"spherical": true
+			};
 
-			// query db with mongoose geoNear wrapper
-			GeoLocation.geoNear(geoJson, options, function (err, results, stats) {
-				// error handling
-				if (err) { res.send(err); }
+			if(req.params.type !== "all") {
+				options.query = { "type": req.params.type};
+			}
 
-				// success handling
-				var locations = [];
-				//flatten and filter results
-
-				if(results.length !== undefined) {
-					for(var i = 0; i < results.length; i++) {
-						if(req.params.type == "all" || results[i].obj.type == req.params.type) {
-							locations[i] = {
-								name: results[i].obj.name,
-								type: results[i].obj.type,
-								dis: Math.round(results[i].dis*6371000),
-								loc: results[i].obj.loc
-							};
-						}
+			// query db with mongoose
+			GeoLocation.aggregate(
+				[
+					{ "$geoNear": options },
+					{ "$sort": { "distance": -1 } } // Sort nearest first
+				],
+				function(err,docs) {
+					if(err) {
+						res.send(err);
+					} else {
+						res.json(docs);
 					}
 				}
-
-				res.json(locations);
-			});
+			);
 		});
 
 module.exports = router;

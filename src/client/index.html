@@ -60,7 +60,7 @@
 		<h2>Ergebnisse</h2>
 		<ul>
 			<li ng-repeat="location in locations" ng-click="createRoute(location)">
-				{{ location.name }} - {{ location.dis }}m
+				{{ location.name }} - {{ location.distance | number:0}}m
 			</li>
 		</ul>
 	</div>
