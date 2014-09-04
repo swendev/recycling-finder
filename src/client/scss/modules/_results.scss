@@ -11,6 +11,9 @@
 
 	li {
 		display: block;
+	}
+
+	.legend-item {
 		padding: 0.5em 1em;
 	}
 
@@ -22,6 +25,7 @@
 	}
 
 	ul {
+		display: block;
 		margin-bottom: 1.5em;
 	}
 
@@ -30,5 +34,50 @@
 		float: left;
 		line-height: 1.6em;
 		margin-left: 0.5em;
+	}
+
+	.location-info {
+		height: 3em;
+		overflow: hidden;
+		transition: height ease $anim_spd;
+		.fa-angle-right {
+			font-size: 1.2em;
+			margin-top: -0.1em;
+			margin-right: 0.3em;
+			transition: all ease $anim_spd;
+		}
+
+		&:hover {
+			.fa-angle-right {
+				transform: rotate(90deg);
+			}
+			height: 7em;
+		}
+	}
+
+	.location-name {
+		cursor: pointer;
+		padding: 1em;
+		height: 3em;
+	}
+
+	.location-options {
+		height: 4em;
+
+		button {
+			float: left;
+			width: 33.3333%;
+			height: 4em;
+			background-color: darken($color_light, 5%);
+			transition: background-color ease $anim_spd;
+
+			i {
+				font-size: 1.4em;
+			}
+
+			&:hover {
+				background-color: darken($color_light, 10%);
+			}
+		}
 	}
 }

@@ -102,7 +102,8 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 
 		directionsService = new google.maps.DirectionsService();
 		var rendererOptions = {
-			map: map
+			map: map,
+			suppressMarkers: true
 		};
 		directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 		directionsDisplay.setDirections({routes: []});

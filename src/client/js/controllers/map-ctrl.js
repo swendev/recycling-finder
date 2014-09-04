@@ -69,4 +69,8 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 	$scope.createRoute = function(location) {
 		mapFactory.createRoute(location);
 	};
+
+	$scope.rollDown = function($event) {
+		console.log($event.target.next());
+	};
 }]);

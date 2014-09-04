@@ -188,7 +188,8 @@ header {
     font-size: 1.2em;
     padding: 0.8333333333em; }
   #results li {
-    display: block;
+    display: block; }
+  #results .legend-item {
     padding: 0.5em 1em; }
   #results img {
     display: block;
@@ -196,12 +197,47 @@ header {
     width: 1.6em;
     height: 1.6em; }
   #results ul {
+    display: block;
     margin-bottom: 1.5em; }
   #results span {
     display: block;
     float: left;
     line-height: 1.6em;
     margin-left: 0.5em; }
+  #results .location-info {
+    height: 3em;
+    overflow: hidden;
+    -webkit-transition: height ease 0.2s;
+            transition: height ease 0.2s; }
+    #results .location-info .fa-angle-right {
+      font-size: 1.2em;
+      margin-top: -0.1em;
+      margin-right: 0.3em;
+      -webkit-transition: all ease 0.2s;
+              transition: all ease 0.2s; }
+    #results .location-info:hover {
+      height: 7em; }
+      #results .location-info:hover .fa-angle-right {
+        -webkit-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+                transform: rotate(90deg); }
+  #results .location-name {
+    cursor: pointer;
+    padding: 1em;
+    height: 3em; }
+  #results .location-options {
+    height: 4em; }
+    #results .location-options button {
+      float: left;
+      width: 33.3333%;
+      height: 4em;
+      background-color: #f2f2f2;
+      -webkit-transition: background-color ease 0.2s;
+              transition: background-color ease 0.2s; }
+      #results .location-options button i {
+        font-size: 1.4em; }
+      #results .location-options button:hover {
+        background-color: #e6e6e6; }
 
 .visible {
   display: block !important;
@@ -260,6 +296,34 @@ header {
 
   100% {
     opacity: 0; } }
+
+@-webkit-keyframes scrollDown {
+  0% {
+    height: 0; }
+
+  100% {
+    height: 4em; } }
+
+@keyframes scrollDown {
+  0% {
+    height: 0; }
+
+  100% {
+    height: 4em; } }
+
+@-webkit-keyframes scrollUp {
+  0% {
+    height: 4em; }
+
+  100% {
+    height: 0; } }
+
+@keyframes scrollUp {
+  0% {
+    height: 4em; }
+
+  100% {
+    height: 0; } }
 
 /* 
  *	Place the scss code for dom states here

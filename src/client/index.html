@@ -52,15 +52,21 @@
 	<div id="results" ng-class="{true:'visible', false:'hidden'}[showLocations]">
 		<h2>Legende</h2>
 		<ul>
-			<li><img src="img/svg/paper.svg" alt=""/><span>Papier</span></li>
-			<li><img src="img/svg/paper.svg" alt=""/><span>Glas</span></li>
-			<li><img src="img/svg/paper.svg" alt=""/><span>Grüner Punkt</span></li>
-			<li><img src="img/svg/paper.svg" alt=""/><span>Kleidung</span></li>
+			<li ng-repeat="searchType in searchTypes">
+				<div class="legend-item">
+					<img src="img/svg/{{searchType.value}}.svg" alt=""/><span>{{ searchType.text }}</span>
+				</div>
+			</li>
 		</ul>
 		<h2>Ergebnisse</h2>
 		<ul>
-			<li ng-repeat="location in locations" ng-click="createRoute(location)">
-				{{ location.name }} - {{ location.distance | number:0}}m
+			<li class="location-info" ng-repeat="location in locations">
+				<div class="location-name"><i class="fa fa-angle-right"></i>{{ location.name }} - {{ location.distance | number:0}}m</div>
+				<div class="location-options">
+					<button ng-click="createRoute(location)"><i class="fa fa-map-marker"></i></button>
+					<button class="middle"><i class="fa fa-thumbs-o-up"></i></button>
+					<button><i class="fa fa-thumbs-o-down"></i></button>
+				</div>
 			</li>
 		</ul>
 	</div>
