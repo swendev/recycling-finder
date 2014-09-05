@@ -28,7 +28,7 @@
 		<h2>Kontakt</h2>
 		projects@pixelforyou.de
 		<h2>Github</h2>
-		<a href="">RecyclingFinder auf Github</a>
+		<a href="https://github.com/swendev/recycling-finder">RecyclingFinder auf Github</a>
 
 	</div>
 	<div class="map-container" ng-class="{true:'panned', false:'not-panned'}[showSideBar]">
@@ -87,6 +87,11 @@
 			</ul>
 		</div>
 		<div id="map-canvas"></div>
+	</div>
+
+	<div class="release-info" ng-class="{true:'visible', false:'hidden'}[showReleaseInfo]">
+		Beta Version. Bitte Fehler auf <a href="https://github.com/swendev/recycling-finder/issues">github</a> berichten. Derzeit gibt es nur Einträge für Oldenburg(Oldb).
+		<i class="fa fa-times" ng-click="showReleaseInfo = !showReleaseInfo"></i>
 	</div>
 
 	<!-- ######################## javascript ######################## -->

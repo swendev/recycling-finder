@@ -154,6 +154,24 @@ header {
   .map-controls button:last-of-type {
     padding: 0 0.5em; }
 
+.release-info {
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3em;
+  padding: 1em;
+  background-color: #3E50B4;
+  color: #FFFFFF; }
+  .release-info a {
+    color: #cccccc; }
+  .release-info i {
+    float: right;
+    display: block;
+    cursor: pointer;
+    color: red; }
+
 #search {
   text-align: center;
   font-size: 0.9em; }
@@ -270,8 +288,8 @@ header {
   padding: 1.2em 1.5em; }
   .sidebar-container h2 {
     text-transform: uppercase;
-    margin-top: 1.5em;
-    margin-bottom: 0.5em; }
+    margin-top: 2.5em;
+    margin-bottom: 1em; }
   .sidebar-container h2:first-of-type {
     margin-top: 0; }
   .sidebar-container a {

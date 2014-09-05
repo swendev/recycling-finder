@@ -37,3 +37,26 @@ header {
 		padding: 0 0.5em;
 	}
 }
+
+.release-info {
+	z-index: 1000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3em;
+	padding: 1em;
+	background-color: $color_dark;
+	color: $color_light;
+
+	a {
+		color: darken($color_light, 20%);
+	}
+
+	i {
+		float: right;
+		display: block;
+		cursor: pointer;
+		color: red;
+	}
+}

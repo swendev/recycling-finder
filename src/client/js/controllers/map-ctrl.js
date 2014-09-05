@@ -9,6 +9,7 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 	$scope.searchType = $scope.searchTypes[0];
 	$scope.showLocations = null;
 	$scope.showSideBar = null;
+	$scope.showReleaseInfo = true;
 	$scope.locations = [];
 
 	// add listener for result hide/show
