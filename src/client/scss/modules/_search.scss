@@ -44,9 +44,14 @@
 		display: block;
 		background-color: $color_light;
 		margin: 1px;
+		transition: background-color ease $anim_spd;
 
 		&:first-of-type {
 			padding-left: 1em;
+		}
+
+		&:hover {
+			background-color: darken($color_light, 5%);
 		}
 	}
 
@@ -58,5 +63,10 @@
 		padding: 0 1em;
 		background-color: $color_dark;
 		color: $color_light;
+		transition: background-color ease $anim_spd;
+	}
+
+	button:hover {
+		background-color: lighten($color_dark, 8%);
 	}
 }

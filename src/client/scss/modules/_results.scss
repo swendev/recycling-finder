@@ -3,6 +3,7 @@
 	box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
 	font-size: 0.9em;
 	display: none;
+	overflow: auto;
 
 	h2 {
 		font-size: 1.2em;
@@ -27,6 +28,10 @@
 	ul {
 		display: block;
 		margin-bottom: 1.5em;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
 	}
 
 	span {

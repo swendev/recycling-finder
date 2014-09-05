@@ -59,12 +59,25 @@ button {
 /* 
  *	Place the scss code for your mobile layout here
  */
-body {
+body, .map-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  overflow-x: hidden; }
+
+.map-container {
+  box-shadow: 0 0.6em 2.5em 0 rgba(0, 0, 0, 0.6); }
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 14em;
+  background-color: #3E50B4;
+  color: #FFFFFF; }
 
 header {
   position: relative;
@@ -79,7 +92,8 @@ header {
   top: 3em;
   bottom: 0;
   width: 100%;
-  min-height: 20em; }
+  min-height: 20em;
+  background-color: #ebebeb; }
 
 #search {
   position: absolute;
@@ -115,20 +129,30 @@ body {
  *	Place the scss code for your modules here
  */
 header {
-  padding: 0.5em 2em; }
+  padding: 0.5em 1.5em; }
   header h1 {
     float: left;
     font-size: 1.6em; }
     header h1 i {
       margin-right: 0.5em; }
 
-.result-toggle {
-  height: 2em;
-  float: right;
-  padding: 0.4em;
-  border: 1px solid #344496; }
-  .result-toggle i {
+.map-controls {
+  float: right; }
+  .map-controls button {
+    height: 2em;
+    float: left;
+    padding: 0.4em;
+    border: 1px solid #344496;
+    -webkit-transition: background-color ease 0.2s;
+            transition: background-color ease 0.2s; }
+  .map-controls button:hover, .map-controls button.active {
+    background-color: #5668c5; }
+  .map-controls button:first-of-type {
     margin-right: 0.5em; }
+    .map-controls button:first-of-type i {
+      margin-right: 0.5em; }
+  .map-controls button:last-of-type {
+    padding: 0 0.5em; }
 
 #search {
   text-align: center;
@@ -167,9 +191,13 @@ header {
     float: left;
     display: block;
     background-color: #FFFFFF;
-    margin: 1px; }
+    margin: 1px;
+    -webkit-transition: background-color ease 0.2s;
+            transition: background-color ease 0.2s; }
     #search select:first-of-type {
       padding-left: 1em; }
+    #search select:hover {
+      background-color: #f2f2f2; }
   #search button {
     float: left;
     display: block;
@@ -177,13 +205,18 @@ header {
     width: 3em;
     padding: 0 1em;
     background-color: #3E50B4;
-    color: #FFFFFF; }
+    color: #FFFFFF;
+    -webkit-transition: background-color ease 0.2s;
+            transition: background-color ease 0.2s; }
+  #search button:hover {
+    background-color: #5668c5; }
 
 #results {
   background-color: #FFFFFF;
   box-shadow: 0 0.1em 0.8em 0 rgba(0, 0, 0, 0.3);
   font-size: 0.9em;
-  display: none; }
+  display: none;
+  overflow: auto; }
   #results h2 {
     font-size: 1.2em;
     padding: 0.8333333333em; }
@@ -199,6 +232,8 @@ header {
   #results ul {
     display: block;
     margin-bottom: 1.5em; }
+    #results ul:last-of-type {
+      margin-bottom: 0; }
   #results span {
     display: block;
     float: left;
@@ -239,6 +274,17 @@ header {
       #results .location-options button:hover {
         background-color: #e6e6e6; }
 
+.sidebar-container {
+  padding: 1.2em 1.5em; }
+  .sidebar-container h2 {
+    text-transform: uppercase;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em; }
+  .sidebar-container h2:first-of-type {
+    margin-top: 0; }
+  .sidebar-container a {
+    color: #cccccc; }
+
 .visible {
   display: block !important;
   -webkit-animation: zoomIn ease 0.2s;
@@ -250,6 +296,20 @@ header {
   pointer-events: none;
   -webkit-animation: zoomOut ease 0.2s;
           animation: zoomOut ease 0.2s; }
+
+.panned {
+  -webkit-transform: translateX(-14em);
+      -ms-transform: translateX(-14em);
+          transform: translateX(-14em);
+  -webkit-animation: pan-left ease 0.2s;
+          animation: pan-left ease 0.2s; }
+
+.not-panned {
+  -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-animation: pan-origin ease 0.2s;
+          animation: pan-origin ease 0.2s; }
 
 @-webkit-keyframes zoomIn {
   0% {
@@ -324,6 +384,42 @@ header {
 
   100% {
     height: 0; } }
+
+@-webkit-keyframes pan-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+
+  100% {
+    -webkit-transform: translateX(-14em);
+            transform: translateX(-14em); } }
+
+@keyframes pan-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+
+  100% {
+    -webkit-transform: translateX(-14em);
+            transform: translateX(-14em); } }
+
+@-webkit-keyframes pan-origin {
+  0% {
+    -webkit-transform: translateX(-14em);
+            transform: translateX(-14em); }
+
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); } }
+
+@keyframes pan-origin {
+  0% {
+    -webkit-transform: translateX(-14em);
+            transform: translateX(-14em); }
+
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); } }
 
 /* 
  *	Place the scss code for dom states here

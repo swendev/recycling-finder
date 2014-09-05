@@ -7,7 +7,8 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 	$scope.searchTypes = mapFactory.getSearchTypes();
 	$scope.searchDistance = $scope.searchDistances[0];
 	$scope.searchType = $scope.searchTypes[0];
-	$scope.showLocations = false;
+	$scope.showLocations = null;
+	$scope.showSideBar = null;
 	$scope.locations = [];
 
 	// add listener for result hide/show

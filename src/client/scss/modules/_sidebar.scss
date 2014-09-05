@@ -1,0 +1,16 @@
+.sidebar-container {
+	padding: 1.2em 1.5em;
+	h2 {
+		text-transform: uppercase;
+		margin-top: 1.5em;
+		margin-bottom: .5em;
+	}
+
+	h2:first-of-type {
+		margin-top: 0;
+	}
+
+	a {
+		color: darken($color_light, 20%);
+	}
+}

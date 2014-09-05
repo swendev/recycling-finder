@@ -3,7 +3,7 @@
  */
 
 header {
-	padding: 0.5em 2em;
+	padding: 0.5em 1.5em;
 	h1 {
 		float: left;
 		font-size: 1.6em;
@@ -13,13 +13,27 @@ header {
 	}
 }
 
-.result-toggle {
-	height: 2em;
+.map-controls {
 	float: right;
-	padding: 0.4em;
-	border: 1px solid darken($color_dark, 8%);
 
-	i {
+	button {
+		height: 2em;
+		float: left;
+		padding: 0.4em;
+		border: 1px solid darken($color_dark, 8%);
+		transition: background-color ease $anim_spd;
+	}
+
+	button:hover, button.active {
+		background-color: lighten($color_dark, 8%);
+	}
+
+	button:first-of-type {
 		margin-right: 0.5em;
+		i {	margin-right: 0.5em; }
+	}
+
+	button:last-of-type {
+		padding: 0 0.5em;
 	}
 }

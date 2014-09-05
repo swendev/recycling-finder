@@ -19,58 +19,75 @@
 </head>
  
 <body ng-controller="MapController">
-	<header>
-		<h1><i class="fa fa-rocket"></i>Finder</h1>
-		<button class="result-toggle" ng-click="showLocations = !showLocations"><i class="fa fa-list"></i>Ergebnisse</button>
-	</header>
+	<div class="sidebar-container">
+		<h2>Idee</h2>
+		Laura Werny
+		<h2>Design & Programmierung</h2>
+		Swen Gorschewski <br />
+		<a href="http://www.pixelforyou.de">pixelforyou.de</a>
+		<h2>Kontakt</h2>
+		projects@pixelforyou.de
+		<h2>Github</h2>
+		<a href="">RecyclingFinder auf Github</a>
 
-	<div id="search">
-		<form>
-			<input id="map-search" type="text" placeholder="search" />
-			<div class="search-options">
-				<select
-						name="searchDistance"
-						id="searchDistance"
-						ng-model="searchDistance"
-						ng-options="searchDistance.text for searchDistance in searchDistances track by searchDistance.value"
-						ng-change="search()">
-				</select>
-
-				<select
-						name="searchType"
-						id="searchType"
-						ng-model="searchType"
-						ng-options="searchType.text for searchType in searchTypes track by searchType.value"
-						ng-change="search()">
-				</select>
+	</div>
+	<div class="map-container" ng-class="{true:'panned', false:'not-panned'}[showSideBar]">
+		<header>
+			<h1><i class="fa fa-thumb-tack"></i>RecyclingFinder</h1>
+			<div class="map-controls">
+				<button ng-class="{active: showLocations}" ng-click="showLocations = !showLocations"><i class="fa fa-list"></i>Ergebnisse</button>
+				<button ng-class="{active: showSideBar}" ng-click="showSideBar = !showSideBar"><i class="fa fa-bars"></i></button>
 			</div>
-			<button id="submit" ng-click="search()">
-				<i class="fa fa-search"></i>
-			</button>
-		</form>
-	</div>
-	<div id="results" ng-class="{true:'visible', false:'hidden'}[showLocations]">
-		<h2>Legende</h2>
-		<ul>
-			<li ng-repeat="searchType in searchTypes">
-				<div class="legend-item">
-					<img src="img/svg/{{searchType.value}}.svg" alt=""/><span>{{ searchType.text }}</span>
+		</header>
+
+		<div id="search">
+			<form>
+				<input id="map-search" type="text" placeholder="search" />
+				<div class="search-options">
+					<select
+							name="searchDistance"
+							id="searchDistance"
+							ng-model="searchDistance"
+							ng-options="searchDistance.text for searchDistance in searchDistances track by searchDistance.value"
+							ng-change="search()">
+					</select>
+
+					<select
+							name="searchType"
+							id="searchType"
+							ng-model="searchType"
+							ng-options="searchType.text for searchType in searchTypes track by searchType.value"
+							ng-change="search()">
+					</select>
 				</div>
-			</li>
-		</ul>
-		<h2>Ergebnisse</h2>
-		<ul>
-			<li class="location-info" ng-repeat="location in locations">
-				<div class="location-name"><i class="fa fa-angle-right"></i>{{ location.name }} - {{ location.distance | number:0}}m</div>
-				<div class="location-options">
-					<button ng-click="createRoute(location)"><i class="fa fa-map-marker"></i></button>
-					<button class="middle"><i class="fa fa-thumbs-o-up"></i></button>
-					<button><i class="fa fa-thumbs-o-down"></i></button>
-				</div>
-			</li>
-		</ul>
+				<button id="submit" ng-click="search()">
+					<i class="fa fa-search"></i>
+				</button>
+			</form>
+		</div>
+		<div id="results" ng-class="{true:'visible', false:'hidden'}[showLocations]">
+			<h2>Legende</h2>
+			<ul>
+				<li ng-repeat="searchType in searchTypes">
+					<div class="legend-item">
+						<img ng-src="img/svg/{{searchType.value}}.svg" alt=""/><span>{{ searchType.text }}</span>
+					</div>
+				</li>
+			</ul>
+			<h2>Ergebnisse</h2>
+			<ul>
+				<li class="location-info" ng-repeat="location in locations">
+					<div class="location-name"><i class="fa fa-angle-right"></i>{{ location.name }} - {{ location.distance | number:0}}m</div>
+					<div class="location-options">
+						<button ng-click="createRoute(location)"><i class="fa fa-map-marker"></i></button>
+						<button class="middle"><i class="fa fa-thumbs-o-up"></i></button>
+						<button><i class="fa fa-thumbs-o-down"></i></button>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div id="map-canvas"></div>
 	</div>
-	<div id="map-canvas"></div>
 
 	<!-- ######################## javascript ######################## -->
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDmfMkdKoHPUCyO-xMYOSOy5tGq17yTnG4&sensor=FALSE&libraries=places">

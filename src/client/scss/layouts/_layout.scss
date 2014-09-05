@@ -2,12 +2,27 @@
  *	Place the scss code for your mobile layout here
  */
 
-body {
+body, .map-container {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	overflow-x: hidden;
+}
+
+.map-container {
+	box-shadow: 0 0.6em 2.5em 0 rgba(0, 0, 0, 0.6);
+}
+
+.sidebar-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 14em;
+	background-color: $color_dark;
+	color: $color_light;
 }
 
 header {
@@ -25,6 +40,7 @@ header {
 	bottom: 0;
 	width: 100%;
 	min-height: 20em;
+	background-color: darken($color_light, 8%);
 }
 
 #search {

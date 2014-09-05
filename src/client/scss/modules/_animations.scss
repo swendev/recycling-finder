@@ -9,6 +9,16 @@
 	animation: zoomOut ease $anim_spd;
 }
 
+.panned {
+	transform: translateX(-14em);
+	animation: pan-left ease $anim_spd;
+}
+
+.not-panned {
+	transform: translateX(0);
+	animation: pan-origin ease $anim_spd;
+}
+
 @keyframes zoomIn {
 	0% {
 		opacity: 0;
@@ -39,19 +49,20 @@
 }
 
 @keyframes scrollDown {
-	0% {
-		height: 0;
-	}
+	0% { height: 0;	}
+	100% { height: 4em;	}
+}
+@keyframes scrollUp {
+	0% { height: 4em; }
+	100% { height: 0; }
+}
 
-	100% {
-		height: 4em;
-	}
-}@keyframes scrollUp {
-	 0% {
-		 height: 4em;
-	 }
+@keyframes pan-left {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(-14em); }
+}
+@keyframes pan-origin {
+	0% { transform: translateX(-14em); }
+	100% { transform: translateX(0); }
+}
 
-	 100% {
-		 height: 0;
-	 }
- }

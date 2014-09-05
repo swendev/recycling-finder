@@ -170,12 +170,11 @@ router.route("/locations/:location_id")
 			GeoLocation.aggregate(
 				[
 					{ "$geoNear": options },
-					{ "$sort": { "distance": -1 } } // Sort nearest first
+					{ "$sort": { "distance": 1 } } // Sort nearest first
 				],
 				function(err,docs) {
-					if(err) {
-						res.send(err);
-					} else {
+					if(err) { res.send(err); }
+					else {
 						res.json(docs);
 					}
 				}

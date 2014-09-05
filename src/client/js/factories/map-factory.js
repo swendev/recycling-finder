@@ -72,14 +72,16 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 			icon: new google.maps.MarkerImage("img/svg/" + icon + ".svg",	null, null, null, new google.maps.Size(36,36)),
 			animation: google.maps.Animation.DROP
 		});
+		/* don't need event listeners for now
 		google.maps.event.addListener(newMarker, 'click', function() {
 			console.log("Bin ein Klicklistener");
-		});
+		}); */
 		return newMarker;
 	}
 
 	function addMarkersFromLocations(locations) {
-		console.log(locations);
+		removeRoute();
+
 		angular.forEach(locations, function(location, key) {
 			setTimeout(function() {
 				var marker = createMarker(location);
@@ -96,9 +98,10 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		});
 	}
 	function createRoute(location) {
-		console.log(myLocation);
+		removeRoute();
+
+		// set destination
 		var destination = new google.maps.LatLng(location.loc.coordinates[0],location.loc.coordinates[1]);
-		console.log(destination);
 
 		directionsService = new google.maps.DirectionsService();
 		var rendererOptions = {
@@ -106,12 +109,13 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 			suppressMarkers: true
 		};
 		directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-		directionsDisplay.setDirections({routes: []});
+		//directionsDisplay.setDirections({routes: []});
 
 		var request = {
 			origin: myLocation,
 			destination: destination,
-			travelMode: google.maps.TravelMode.WALKING
+			travelMode: google.maps.TravelMode.WALKING,
+			unitSystem: google.maps.UnitSystem.METRIC
 		};
 
 		directionsService.route(request, function(response, status) {
@@ -123,6 +127,13 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		});
 	}
 
+	function removeRoute() {
+		// remove existing route
+		if (directionsDisplay !== undefined) {
+			directionsDisplay.setMap(null);
+		}
+	}
+
 	return {
 		setupMap: setupMap,
 		getSearchDistances: getSearchDistances,
@@ -132,6 +143,7 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		addMarkersFromLocations: addMarkersFromLocations,
 		removeMarkers: removeMarkers,
 		createRoute: createRoute,
+		removeRoute: removeRoute,
 		createMarker: createMarker
 	};
 }]);
