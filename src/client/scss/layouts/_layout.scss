@@ -20,9 +20,7 @@ body, .map-container {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	width: 14em;
-	background-color: $color_dark;
-	color: $color_light;
+	width: 16em;
 }
 
 header {
@@ -57,5 +55,17 @@ header {
 	width: 16em;
 	max-height: calc(100% - 7em);
 	z-index: 999;
+}
 
+.overlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.8);
+	justify-content: center;
+	align-items: center;
 }

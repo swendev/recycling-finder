@@ -36,6 +36,21 @@ router.route("/locations")
 			"spherical": true
 		};
 
+		// determine if an array has any elements not in another array
+		function getNewTypes(oldTypes, newTypes) {
+			var tempTypes = [];
+			for( var i = 0; i < newTypes.length; i++) {
+				if(oldTypes.indexOf(newTypes[i]) == -1) {
+					tempTypes.push(newTypes[i]);
+				}
+			}
+			return tempTypes;
+		}
+
+		var types = req.body.types.split(",");
+
+		console.log(types);
+
 		// query db with mongoose
 		GeoLocation.aggregate(
 			[
@@ -47,7 +62,8 @@ router.route("/locations")
 					res.send(err);
 				} else {
 					if(docs.length > 0) {
-						if (docs[0].type.indexOf(req.body.type) > -1) {
+						var tempTypes = getNewTypes(docs[0].type, types);
+						if (tempTypes.length < 1) {
 							//In the array!
 							res.json({ message: "location exists already" });
 						} else {
@@ -55,28 +71,24 @@ router.route("/locations")
 							GeoLocation.findById(docs[0]._id, function(err, location) {
 								if (err) { res.send(err); }
 								else {
-									location.type.push(req.body.type);
+									//console.log(location);
+									location.type.push(tempTypes);
 									location.save(function(err) {
 										if (err) { res.send(err); }
-										else {
-											res.json({ message: "location altered" });
-										}
+										else { res.json({ message: "location altered" }); }
 									});
 								}
-
 							});
 						}
 					} else {
 						var location = new GeoLocation();
 						location.name               = req.body.name;        // set the locations name (comes from the request)
-						location.type               = [req.body.type];
+						location.type               = types;
 						location.loc.type           = req.body.geometry;    // set the type of the geo location (sphere, point, polygon)
 						location.loc.coordinates    = [req.body.lng, req.body.lat];
 						location.save(function(err) {
-							if (err)
-								res.send(err);
-
-							res.json({ message: "location added" });
+							if (err) { res.send(err); }
+							else { res.json({ message: "location added" }); }
 						});
 					}
 				}

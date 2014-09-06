@@ -18,8 +18,11 @@
 
 </head>
  
-<body ng-controller="MapController">
-	<div class="sidebar-container">
+<body ng-controller="AppController">
+	<div ng-controller="SidebarController" class="sidebar-container">
+		<button ng-class="{active: $parent.showModal}" ng-click="$parent.toggleModal()">
+			<i class="fa fa-plus"></i>Standort hinzufügen
+		</button>
 		<h2>Idee</h2>
 		Laura Werny
 		<h2>Design & Programmierung</h2>
@@ -29,9 +32,12 @@
 		projects@pixelforyou.de
 		<h2>Github</h2>
 		<a href="https://github.com/swendev/recycling-finder">RecyclingFinder auf Github</a>
-
 	</div>
-	<div class="map-container" ng-class="{true:'panned', false:'not-panned'}[showSideBar]">
+	<div ng-controller="MapController" class="map-container" ng-class="{true:'panned', false:'not-panned'}[showSideBar]">
+		<div class="release-info" ng-class="{true:'visible', false:'hidden'}[showReleaseInfo]">
+			Beta Version. Bitte Fehler auf <a href="https://github.com/swendev/recycling-finder/issues">github</a> berichten. Derzeit gibt es nur Einträge für Oldenburg(Oldb).
+			<i class="fa fa-times" ng-click="showReleaseInfo = !showReleaseInfo"></i>
+		</div>
 		<header>
 			<h1><i class="fa fa-thumb-tack"></i>RecyclingFinder</h1>
 			<div class="map-controls">
@@ -89,9 +95,21 @@
 		<div id="map-canvas"></div>
 	</div>
 
-	<div class="release-info" ng-class="{true:'visible', false:'hidden'}[showReleaseInfo]">
-		Beta Version. Bitte Fehler auf <a href="https://github.com/swendev/recycling-finder/issues">github</a> berichten. Derzeit gibt es nur Einträge für Oldenburg(Oldb).
-		<i class="fa fa-times" ng-click="showReleaseInfo = !showReleaseInfo"></i>
+	<div ng-controller="ModalController" class="overlay" ng-class="{true:'visible-flex', false:'hidden-flex'}[$parent.showModal]">
+		<div class="modal">
+			<h2>Standort hinzufügen</h2>
+			<div class="location-search-container">
+				<input id="location-search" ng-model="formData.input" type="search" placeholder="Adresse"/>
+			</div>
+			<div class="checkbox">
+				<label ng-repeat="searchType in searchTypes">
+					<input type="checkbox" name="awesome" ng-model="searchType.isChecked">
+					{{ searchType.text }}
+				</label>
+			</div>
+			<button ng-click="addRecyclingLoc()">Abschicken</button>
+			<button ng-click="$parent.toggleModal()">Abbrechen</button>
+		</div>
 	</div>
 
 	<!-- ######################## javascript ######################## -->
@@ -106,7 +124,10 @@
 
 	<!-- build:js js/app.min.js -->
 	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers/app-ctrl.js"></script>
 	<script type="text/javascript" src="js/controllers/map-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/sidebar-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/modal-ctrl.js"></script>
 	<script type="text/javascript" src="js/factories/geo-api-factory.js"></script>
 	<script type="text/javascript" src="js/factories/map-factory.js"></script>
 	<!-- endbuild -->

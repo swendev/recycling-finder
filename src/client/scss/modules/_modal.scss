@@ -1,0 +1,38 @@
+.modal {
+	position: relative;
+	background-color: $color_light;
+	max-width: 30em;
+
+	h2 {
+		text-align: center;
+		margin: 1em 1em 1.5em 1em;
+		color: $color_dark;
+	}
+
+	.location-search-container {
+		margin: 0 1.5em 1.5em 1.5em;
+		width: calc( 100% - 3em);
+		min-width: 20em;
+	}
+
+	#location-search {
+		font-size: 0.9em;
+		width: 100%;
+		display: block;
+		background-color: darken($color_light, 10%);
+		height: 3em;
+		padding: 0 0.5em;
+	}
+
+	button {
+		float: left;
+		width: 50%;
+		height: 2.6em;
+		background-color: darken($color_light, 10%);
+		transition: background-color ease $anim_spd;
+
+		&:hover {
+			background-color: darken($color_light, 20%);
+		}
+	}
+}

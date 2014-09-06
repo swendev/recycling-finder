@@ -75,9 +75,7 @@ body, .map-container {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 14em;
-  background-color: #3E50B4;
-  color: #FFFFFF; }
+  width: 16em; }
 
 header {
   position: relative;
@@ -108,6 +106,24 @@ header {
   width: 16em;
   max-height: calc(100% - 7em);
   z-index: 999; }
+
+.overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
 
 /* 
  *	Place the scss code for your tablet layout here
@@ -236,6 +252,7 @@ header {
   display: none;
   overflow: auto; }
   #results h2 {
+    color: #3E50B4;
     font-size: 1.2em;
     padding: 0.8333333333em; }
   #results li {
@@ -293,7 +310,9 @@ header {
         background-color: #e6e6e6; }
 
 .sidebar-container {
-  padding: 1.2em 1.5em; }
+  padding: 0.5em 1.5em;
+  background-color: #242f68;
+  color: #FFFFFF; }
   .sidebar-container h2 {
     text-transform: uppercase;
     margin-top: 2.5em;
@@ -302,6 +321,47 @@ header {
     margin-top: 0; }
   .sidebar-container a {
     color: #cccccc; }
+  .sidebar-container button {
+    width: 100%;
+    height: 2em;
+    padding: 0.4em;
+    border: 1px solid #344496;
+    -webkit-transition: background-color ease 0.2s;
+            transition: background-color ease 0.2s;
+    margin-bottom: 1.5em; }
+    .sidebar-container button i {
+      margin-right: 0.3em; }
+  .sidebar-container button:hover, .sidebar-container button.active {
+    background-color: #5668c5; }
+
+.modal {
+  position: relative;
+  background-color: #FFFFFF;
+  max-width: 30em; }
+  .modal h2 {
+    text-align: center;
+    margin: 1em 1em 1.5em 1em;
+    color: #3E50B4; }
+  .modal .location-search-container {
+    margin: 0 1.5em 1.5em 1.5em;
+    width: calc( 100% - 3em);
+    min-width: 20em; }
+  .modal #location-search {
+    font-size: 0.9em;
+    width: 100%;
+    display: block;
+    background-color: #e6e6e6;
+    height: 3em;
+    padding: 0 0.5em; }
+  .modal button {
+    float: left;
+    width: 50%;
+    height: 2.6em;
+    background-color: #e6e6e6;
+    -webkit-transition: background-color ease 0.2s;
+            transition: background-color ease 0.2s; }
+    .modal button:hover {
+      background-color: #cccccc; }
 
 .visible {
   display: block !important;
@@ -315,10 +375,28 @@ header {
   -webkit-animation: zoomOut ease 0.2s;
           animation: zoomOut ease 0.2s; }
 
+.visible-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-animation: zoomIn ease 0.2s;
+          animation: zoomIn ease 0.2s; }
+
+.hidden-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-animation: zoomOut ease 0.2s;
+          animation: zoomOut ease 0.2s; }
+
 .panned {
-  -webkit-transform: translateX(-14em);
-      -ms-transform: translateX(-14em);
-          transform: translateX(-14em);
+  -webkit-transform: translateX(-16em);
+      -ms-transform: translateX(-16em);
+          transform: translateX(-16em);
   -webkit-animation: pan-left ease 0.2s;
           animation: pan-left ease 0.2s; }
 
@@ -409,8 +487,8 @@ header {
             transform: translateX(0); }
 
   100% {
-    -webkit-transform: translateX(-14em);
-            transform: translateX(-14em); } }
+    -webkit-transform: translateX(-16em);
+            transform: translateX(-16em); } }
 
 @keyframes pan-left {
   0% {
@@ -418,13 +496,13 @@ header {
             transform: translateX(0); }
 
   100% {
-    -webkit-transform: translateX(-14em);
-            transform: translateX(-14em); } }
+    -webkit-transform: translateX(-16em);
+            transform: translateX(-16em); } }
 
 @-webkit-keyframes pan-origin {
   0% {
-    -webkit-transform: translateX(-14em);
-            transform: translateX(-14em); }
+    -webkit-transform: translateX(-16em);
+            transform: translateX(-16em); }
 
   100% {
     -webkit-transform: translateX(0);
@@ -432,8 +510,8 @@ header {
 
 @keyframes pan-origin {
   0% {
-    -webkit-transform: translateX(-14em);
-            transform: translateX(-14em); }
+    -webkit-transform: translateX(-16em);
+            transform: translateX(-16em); }
 
   100% {
     -webkit-transform: translateX(0);

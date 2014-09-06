@@ -48,7 +48,7 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 
 	// function to remove old makers and add new ones to the map on event
 	function event() {
-		place = mapFactory.getPosition();
+		place = mapFactory.getPosition(autocomplete);
 		if(place !== null) {
 			mapFactory.removeMarkers();
 			mapFactory.addMarkerFromPlace(place);
@@ -75,4 +75,5 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 	$scope.rollDown = function($event) {
 		console.log($event.target.next());
 	};
+
 }]);

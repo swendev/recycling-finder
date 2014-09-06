@@ -1,6 +1,7 @@
 app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFactory) {
 	var map;
 	var autocomplete;
+	var locationAutocomplete;
 	var markers = [];
 	var myLocation;
 	var directionsDisplay;
@@ -12,6 +13,11 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		return autocomplete;
 	}
 
+	function setupAutocomplete(locationSearch, searchOptions) {
+		locationAutocomplete = new google.maps.places.Autocomplete(locationSearch, searchOptions);
+		return locationAutocomplete;
+	}
+
 	function getSearchDistances() {
 		return [
 			{text: "500m",  value: 500},
@@ -20,23 +26,23 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 			{text: "5km",   value: 5000}
 		];
 	}
-
 	function getSearchTypes() {
 		return [
-			{text: "Alle",          value: "all"},
-			{text: "Papier",        value: "paper"},
-			{text: "Glas",          value: "glass"},
-			{text: "Grüner Punkt",  value: "plastic"}
+			{text: "Alle",          value: "all",       isChecked: false},
+			{text: "Papier",        value: "paper",     isChecked: false},
+			{text: "Glas",          value: "glass",     isChecked: false},
+			{text: "Grüner Punkt",  value: "plastic",   isChecked: false},
+			{text: "Kleidung",      value: "cloth",     isChecked: false}
 		];
 	}
-	function getPosition() {
-		var place = autocomplete.getPlace();
+
+	function getPosition(completer) {
+		var place = completer.getPlace();
 		if (place !== undefined) {
 			return place;
 		} else {
 			return null;
 		}
-
 	}
 
 	function addMarkerFromPlace(place) {
@@ -136,6 +142,7 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 
 	return {
 		setupMap: setupMap,
+		setupAutocomplete: setupAutocomplete,
 		getSearchDistances: getSearchDistances,
 		getSearchTypes: getSearchTypes,
 		getPosition: getPosition,
