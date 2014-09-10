@@ -9,7 +9,7 @@ var routes = require("./app/routes/resource");  // define routes
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080; 		// set our port
+var port = process.env.PORT || 61876; 		// set our port
 
 app.all('*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");

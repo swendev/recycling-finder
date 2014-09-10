@@ -1,16 +1,13 @@
 app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFactory) {
 	var map;
-	var autocomplete;
 	var locationAutocomplete;
 	var markers = [];
 	var myLocation;
 	var directionsDisplay;
 	var directionsService;
 
-	function setupMap(mapCanvas, searchInput, mapOptions, searchOptions) {
+	function setupMap(mapCanvas, mapOptions) {
 		map = new google.maps.Map(mapCanvas, mapOptions);
-		autocomplete = new google.maps.places.Autocomplete(searchInput, searchOptions);
-		return autocomplete;
 	}
 
 	function setupAutocomplete(locationSearch, searchOptions) {
@@ -36,23 +33,15 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		];
 	}
 
-	function getPosition(completer) {
-		var place = completer.getPlace();
-		if (place !== undefined) {
-			return place;
-		} else {
-			return null;
-		}
-	}
-
-	function addMarkerFromPlace(place) {
+	function addMarkerFromMyLocation(newLocation) {
+		myLocation = newLocation;
+		console.log(myLocation.name);
 		var marker = new google.maps.Marker({
 			map: map,
-			title: place.name,
-			position: place.geometry.location
+			title: myLocation.name,
+			position: { lat: myLocation.lat, lng: myLocation.lng }
 		});
 		markers.push(marker);
-		myLocation = new google.maps.LatLng(place.geometry.location.k,place.geometry.location.B);
 		map.setZoom(15);
 		map.panTo(marker.position);
 	}
@@ -70,25 +59,26 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 				icon += "_" + type;
 			}
 		});
-		var latLng = new google.maps.LatLng(location.loc.coordinates[0],location.loc.coordinates[1]);
-		var newMarker = new google.maps.Marker({
+		console.log(location);
+		var marker = new google.maps.Marker({
 			map: map,
 			title: location.name,
-			position: latLng,
+			position: {lat: location.loc.coordinates[1], lng: location.loc.coordinates[0]},
 			icon: new google.maps.MarkerImage("img/svg/" + icon + ".svg",	null, null, null, new google.maps.Size(36,36)),
 			animation: google.maps.Animation.DROP
 		});
 		/* don't need event listeners for now
 		google.maps.event.addListener(newMarker, 'click', function() {
-			console.log("Bin ein Klicklistener");
+			console.log("I'm a click listener");
 		}); */
-		return newMarker;
+		return marker;
 	}
 
 	function addMarkersFromLocations(locations) {
 		removeRoute();
-
+		console.log(locations);
 		angular.forEach(locations, function(location, key) {
+			console.log(location);
 			setTimeout(function() {
 				var marker = createMarker(location);
 
@@ -107,7 +97,8 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		removeRoute();
 
 		// set destination
-		var destination = new google.maps.LatLng(location.loc.coordinates[0],location.loc.coordinates[1]);
+		var origin = new google.maps.LatLng(myLocation.lat,myLocation.lng);
+		var destination = new google.maps.LatLng(location.loc.coordinates[1],location.loc.coordinates[0]);
 
 		directionsService = new google.maps.DirectionsService();
 		var rendererOptions = {
@@ -115,10 +106,9 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 			suppressMarkers: true
 		};
 		directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-		//directionsDisplay.setDirections({routes: []});
 
 		var request = {
-			origin: myLocation,
+			origin: origin,
 			destination: destination,
 			travelMode: google.maps.TravelMode.WALKING,
 			unitSystem: google.maps.UnitSystem.METRIC
@@ -145,8 +135,7 @@ app.factory("mapFactory", ["$http", "geoApiFactory", function($http, geoApiFacto
 		setupAutocomplete: setupAutocomplete,
 		getSearchDistances: getSearchDistances,
 		getSearchTypes: getSearchTypes,
-		getPosition: getPosition,
-		addMarkerFromPlace: addMarkerFromPlace,
+		addMarkerFromMyLocation: addMarkerFromMyLocation,
 		addMarkersFromLocations: addMarkersFromLocations,
 		removeMarkers: removeMarkers,
 		createRoute: createRoute,

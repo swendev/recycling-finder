@@ -48,7 +48,11 @@
 
 		<div id="search">
 			<form>
-				<input id="map-search" type="text" placeholder="search" />
+				<map-search search-model="myLocationName"
+				            search-callback="search(myLocation)"
+				            country="de"
+				            class="map-search"
+				            placeholder="search"></map-search>
 				<div class="search-options">
 					<select
 							name="searchDistance"
@@ -66,9 +70,9 @@
 							ng-change="search()">
 					</select>
 				</div>
-				<button id="submit" ng-click="search()">
+				<map-search-submit class="submit" search-model="myLocationName">
 					<i class="fa fa-search"></i>
-				</button>
+				</map-search-submit>
 			</form>
 		</div>
 		<div id="results" ng-class="{true:'visible', false:'hidden'}[showLocations]">
@@ -99,7 +103,11 @@
 		<div class="modal">
 			<h2>Standort hinzufügen</h2>
 			<div class="location-search-container">
-				<input id="location-search" ng-model="formData.input" type="search" placeholder="Adresse"/>
+				<map-search search-model="myLocationName"
+				            search-callback="search(myLocation)"
+				            country="de"
+				            class="map-search"
+				            placeholder="search"></map-search>
 			</div>
 			<div class="checkbox">
 				<label ng-repeat="searchType in searchTypes">
@@ -124,6 +132,8 @@
 
 	<!-- build:js js/app.min.js -->
 	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/directives/map-search.js"></script>
+	<script type="text/javascript" src="js/directives/map-search-submit.js"></script>
 	<script type="text/javascript" src="js/controllers/app-ctrl.js"></script>
 	<script type="text/javascript" src="js/controllers/map-ctrl.js"></script>
 	<script type="text/javascript" src="js/controllers/sidebar-ctrl.js"></script>

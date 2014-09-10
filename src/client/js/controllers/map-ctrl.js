@@ -1,7 +1,8 @@
 app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", function($scope, mapFactory, geoApiFactory) {
-	var autocomplete;
-	var place;
 	var animationEndHandlerNames = ["animationend", "webkitAnimationEnd", "oAnimationEnd", "MSAnimationEnd"];
+
+	$scope.myLocationName = "";
+	$scope.myLocation = null;
 
 	$scope.searchDistances = mapFactory.getSearchDistances();
 	$scope.searchTypes = mapFactory.getSearchTypes();
@@ -27,34 +28,21 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 		disableDefaultUI: true,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	var searchOptions = {
-		componentRestrictions: {country: "de"},
-		type: ["address"]
-	};
 	var mapCanvas = document.getElementById("map-canvas");
-	var searchInput = document.getElementById("map-search");
 
 	// create Map
-	autocomplete = mapFactory.setupMap(mapCanvas, searchInput, mapOptions, searchOptions);
+	mapFactory.setupMap(mapCanvas, mapOptions);
 
-	// add event listeners
-	var submitButton = document.getElementById("submit");
-	$scope.search = function() {
-		event();
-	};
-	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-		event();
-	});
-
-	// function to remove old makers and add new ones to the map on event
-	function event() {
-		place = mapFactory.getPosition(autocomplete);
-		if(place !== null) {
+	$scope.search = function(myLocation) {
+		if(myLocation !== undefined) {
+			$scope.myLocation = myLocation;
+		}
+		if($scope.myLocation !== null) {
 			mapFactory.removeMarkers();
-			mapFactory.addMarkerFromPlace(place);
+			mapFactory.addMarkerFromMyLocation($scope.myLocation);
 			// get promise for matching places in radius
 			console.log($scope.searchDistance);
-			geoApiFactory.getMarkers(place.geometry.location.k, place.geometry.location.B, $scope.searchType.value, $scope.searchDistance.value).then(function (response) {
+			geoApiFactory.getMarkers($scope.myLocation.lat, $scope.myLocation.lng, $scope.searchType.value, $scope.searchDistance.value).then(function (response) {
 				$scope.locations = response.data;
 				console.log($scope.locations);
 				var locationCount = mapFactory.addMarkersFromLocations(response.data);
@@ -65,7 +53,7 @@ app.controller("MapController", ["$scope", "mapFactory", "geoApiFactory", functi
 				// error
 			});
 		}
-	}
+	};
 
 	// create Route
 	$scope.createRoute = function(location) {

@@ -1,46 +1,37 @@
 app.controller("ModalController", ["$scope", "mapFactory", "geoApiFactory", function($scope, mapFactory, geoApiFactory) {
-	var locationAutocomplete;
 
+	$scope.myLocationName ="";
+	$scope.myLocation = null;
 	$scope.searchTypes = mapFactory.getSearchTypes();
 	$scope.showModal = null;
 	$scope.formData = {
-		"place": null,
+		"location": null,
 		"types": null
 	};
-
-	var searchOptions = {
-		componentRestrictions: {country: "de"},
-		type: ["address"]
-	};
-
-	//create autocomplete
-	var locationSearch =  document.getElementById("location-search");
-	locationAutocomplete = mapFactory.setupAutocomplete(locationSearch, searchOptions);
-
-	var onPlaceChange = function() {
-		$scope.formData.place = mapFactory.getPosition(locationAutocomplete);
-	};
-	var locationAutocompleteListener = google.maps.event.addListener(locationAutocomplete, 'place_changed', onPlaceChange);
 
 	$scope.modal = function() {
 		$scope.showModal = !$scope.showModal;
 		$scope.showSideBar = !$scope.showSideBar;
 	};
 
+	$scope.search = function(newLocation) {
+		console.log(newLocation);
+		$scope.formData.location = newLocation;
+	};
+
 	// create new location
 	$scope.addRecyclingLoc = function() {
 		// check if place has been selected
-		if($scope.formData.place !== "") {
-
+		if($scope.formData.location !== "") {
 			// add location type to string for each checked checkbox
 			angular.forEach($scope.searchTypes, function(searchType, idx) {
 				if(searchType.isChecked) {
 					if ($scope.formData.types === null) {
+						console.log(searchType.value);
 						$scope.formData.types = searchType.value;
 					} else {
 						$scope.formData.types += "," + searchType.value;
 					}
-
 				}
 			});
 		} else {
@@ -51,9 +42,9 @@ app.controller("ModalController", ["$scope", "mapFactory", "geoApiFactory", func
 		if($scope.formData.types !== null) {
 			console.log($scope.formData);
 			var data = {
-				name: $scope.formData.place.name,
-				lat: $scope.formData.place.geometry.location.B,
-				lng: $scope.formData.place.geometry.location.k,
+				name: $scope.formData.location.name,
+				lat: $scope.formData.location.lat,
+				lng: $scope.formData.location.lng,
 				geometry: "Point",
 				types: $scope.formData.types
 			};
@@ -65,9 +56,7 @@ app.controller("ModalController", ["$scope", "mapFactory", "geoApiFactory", func
 				function(err) {
 					// error handling
 				});
-			$scope.formData.input = "";
-			google.maps.event.removeListener(locationAutocompleteListener);
-			locationAutocompleteListener = google.maps.event.addListener(locationAutocomplete, 'place_changed', onPlaceChange);
+			$scope.myLocationName ="";
 			$scope.formData.types = null;
 		} else {
 			// error if no checkbox has been checked

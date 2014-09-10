@@ -5,7 +5,10 @@ var GeoLocation     = require("../models/geoJson");
 var config          = require("../config");
 // db setup
 var mongoose        = require("mongoose");
-mongoose.connect("mongodb://" + config.db.url + ":" + config.db.port + "/" + config.db.name + ""); // connect to our database
+/*var string = "mongodb://" + config.db.username + ":" + config.db.password + "@" + config.db.url + ":" + config.db.port + "/" + config.db.name;
+mongoose.connect(string,{auth:{authdb:"admin"}}); // connect to our database*/
+
+mongoose.connect("mongodb://" + config.db.url + ":" + config.db.port + "/" + config.db.name);
 
 // routes for our api
 // =============================================================================
